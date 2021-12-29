@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import throttle from "lodash/throttle";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 const IMAGES = [
   require('../assets/santa-1.png'),
@@ -13,7 +13,21 @@ interface ClappyCheeksProps {
 export function ClappyCheeks(props: ClappyCheeksProps) {
   const { nameOfClapper } = props;
 
+  const [loading, setLoading] = useState(true);
   const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    const initCounter = async () => {
+      const docRef = doc(db, "leaderboards", nameOfClapper);
+      const nameDoc = await getDoc(docRef);
+      const data = nameDoc?.data();
+      if (data) {
+        setCounter(data.score);
+        setLoading(false);
+      }
+    };
+    initCounter();
+  }, [nameOfClapper]);
 
   const updateScore = useCallback(
     (score) => {
@@ -31,8 +45,9 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
   );
 
   useEffect(() => {
+    if (loading) return;
     updateScoreDebounced(counter);
-  }, [counter, updateScoreDebounced]);
+  }, [counter, updateScoreDebounced, loading]);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.code === "Space") {
@@ -47,6 +62,9 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
     };
   }, [handleKeyDown]);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="flex flex-col items-center">
       <div className="text-3xl">{counter}</div>
