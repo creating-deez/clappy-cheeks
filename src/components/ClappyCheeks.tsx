@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 const IMAGES = [
-  "https://cdn.pixabay.com/photo/2019/12/05/19/28/clip-art-4675943_960_720.png",
-  "https://png.pngtree.com/png-vector/20190927/ourmid/pngtree-lovely-bat-clipart-vector-png-element-png-image_1749074.jpg",
-];
+  require('../assets/santa-1.png'),
+  require('../assets/santa-2.png'),
+ ];
 interface ClappyCheeksProps {
   nameOfClapper: string;
 }
@@ -32,7 +32,8 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
         }}
         src={IMAGES[counter % IMAGES.length]}
         alt="Clappy Cheeks"
-        className="h-32 w-32 cursor-pointer"
+        className="cursor-pointer"
+        style={{ height: '80vh', width: '100%'}}
       />
       <div>Press space or some shit</div>
     </div>
