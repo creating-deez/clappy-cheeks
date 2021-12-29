@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { db } from "./firebase";
 import { ArrowSmRightIcon } from "@heroicons/react/solid";
 import { ClappyCheeks } from "./components/ClappyCheeks";
+import { Leaderboard } from "./components/Leaderboard";
 function isEmpty(text: string) {
   return text.trim().length === 0;
 }
@@ -24,6 +25,7 @@ function App() {
       {name ? (
         <div className="h-full w-full flex flex-col justify-center items-center">
           <div>Hello {name}</div>
+          <Leaderboard />
           <ClappyCheeks nameOfClapper={name} />
         </div>
       ) : (

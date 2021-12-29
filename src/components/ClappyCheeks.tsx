@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 const IMAGES = [
   require('../assets/santa-1.png'),
   require('../assets/santa-2.png'),
@@ -8,7 +10,22 @@ interface ClappyCheeksProps {
 }
 
 export function ClappyCheeks(props: ClappyCheeksProps) {
+  const { nameOfClapper } = props;
+
   const [counter, setCounter] = useState(0);
+
+  const updateScoreDebounced = useCallback(
+    (score) => {
+      setDoc(doc(db, "leaderboards", nameOfClapper), {
+        score,
+      });
+    },
+    [nameOfClapper]
+  );
+
+  useEffect(() => {
+    updateScoreDebounced(counter);
+  }, [counter, updateScoreDebounced]);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.code === "Space") {
