@@ -93,7 +93,7 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
         src={IMAGES[counter % IMAGES.length]}
         alt="Clappy Cheeks"
         className="cursor-pointer"
-        style={{ height: "80vh", width: "100%" }}
+        style={{ maxHeight: "80vh", width: "100%" }}
       />
       <div>Press space or some shit</div>
     </div>
