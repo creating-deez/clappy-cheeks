@@ -8,7 +8,7 @@ function isEmpty(text: string) {
   return text.trim().length === 0;
 }
 function App() {
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const [name, setName] = useState<string | null>(null);
   const [nameInput, setNameInput] = useState("");
@@ -53,6 +53,7 @@ function App() {
         </div>
       )}
     </div>
+
   );
 }
 

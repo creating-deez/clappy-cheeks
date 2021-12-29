@@ -2,6 +2,10 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import throttle from "lodash/throttle";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+
+const song = require("../assets/music.mp3");
+var audio = new Audio(song);
+
 const IMAGES = [
   require("../assets/santa-1.png"),
   require("../assets/santa-2.png"),
@@ -50,6 +54,10 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
   );
 
   useEffect(() => {
+    audio.play();
+  }, []);
+
+  useEffect(() => {
     if (loading) return;
     updateScoreDebounced(counter);
   }, [counter, updateScoreDebounced, loading]);
@@ -86,6 +94,7 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
   return (
     <div className="flex flex-col items-center">
       <div className="text-3xl">{counter}</div>
+      
       <img
         onClick={() => {
           setCounter((prev) => prev + 1);
@@ -93,7 +102,7 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
         src={IMAGES[counter % IMAGES.length]}
         alt="Clappy Cheeks"
         className="cursor-pointer"
-        style={{ maxHeight: "80vh", width: "100%" }}
+        style={{ maxHeight: "70vh", width: "100%" }}
       />
       <div>Press space or some shit</div>
     </div>
