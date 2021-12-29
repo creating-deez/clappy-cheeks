@@ -24,7 +24,7 @@ function App() {
     <div className="h-screen">
       {name ? (
         <div className="h-full w-full flex justify-center items-center">
-          <Leaderboard />
+          <Leaderboard nameOfClapper={name} />
           <div className="w-10"></div>
           <ClappyCheeks nameOfClapper={name} />
         </div>

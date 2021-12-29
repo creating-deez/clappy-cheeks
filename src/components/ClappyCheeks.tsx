@@ -23,10 +23,13 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
       const docRef = doc(db, "leaderboards", nameOfClapper);
       const nameDoc = await getDoc(docRef);
       const data = nameDoc?.data();
+
       if (data) {
         setCounter(data.score);
-        setLoading(false);
+      } else {
+        setCounter(0);
       }
+      setLoading(false);
     };
     initCounter();
   }, [nameOfClapper]);

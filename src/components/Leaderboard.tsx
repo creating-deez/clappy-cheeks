@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import {
   collection,
   doc,
@@ -18,8 +19,12 @@ function Th(props: { children: React.ReactNode }) {
   return <th className="">{props.children}</th>;
 }
 
-function Td(props: { children: React.ReactNode }) {
-  return <td className="px-2">{props.children}</td>;
+function Td(props: { children: React.ReactNode; bold?: boolean }) {
+  const tdClass = classNames({
+    "px-2": true,
+    "font-bold": props.bold,
+  });
+  return <td className={tdClass}>{props.children}</td>;
 }
 
 const q = query(
@@ -32,7 +37,12 @@ interface LeaderboardEntry {
   name: string;
   score: number;
 }
-export function Leaderboard() {
+
+interface LeaderboardProps {
+  nameOfClapper: string;
+}
+export function Leaderboard(props: LeaderboardProps) {
+  const { nameOfClapper } = props;
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
 
   useEffect(() => {
@@ -60,7 +70,7 @@ export function Leaderboard() {
             prevEntries = prevEntries.filter((entry) => entry.name !== name);
           }
         });
-        return prevEntries;
+        return prevEntries.sort((a, b) => b.score - a.score);
       });
     });
     return () => {
@@ -71,7 +81,8 @@ export function Leaderboard() {
   console.log(entries);
   return (
     <div>
-      <h1>Leaderboard</h1>
+      <h1 className="text-xl">Leaderboard</h1>
+      <div className="h-2"></div>
       <table className="">
         <thead>
           <tr>
@@ -83,8 +94,8 @@ export function Leaderboard() {
           {entries.map((entry) => {
             return (
               <Tr key={entry.name}>
-                <Td>{entry.name}</Td>
-                <Td>{entry.score}</Td>
+                <Td bold={entry.name === nameOfClapper}>{entry.name}</Td>
+                <Td bold={entry.name === nameOfClapper}>{entry.score}</Td>
               </Tr>
             );
           })}
