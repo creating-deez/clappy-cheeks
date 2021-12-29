@@ -7,6 +7,7 @@ import {
   query,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+
 import { db } from "../firebase";
 
 const q = query(
@@ -28,12 +29,9 @@ export function Leaderboard() {
         snapshot.docChanges().forEach((change) => {
           const name = change.doc.id;
           const score = change.doc.data().score;
-          console.log(name, score);
           if (change.type === "added") {
-            prevEntries.push({
-              name,
-              score,
-            });
+            console.log("added", name, score);
+            prevEntries = [...prevEntries, { name, score }];
           }
           if (change.type === "modified") {
             prevEntries = prevEntries.map((entry) => {
@@ -50,14 +48,15 @@ export function Leaderboard() {
             prevEntries = prevEntries.filter((entry) => entry.name !== name);
           }
         });
-        console.log(prevEntries);
         return prevEntries;
       });
     });
     return () => {
       unsubscribe();
     };
-  }, [q]);
+  }, []);
+
+  console.log(entries);
   return (
     <div>
       <h1>Leaderboard</h1>
@@ -71,7 +70,7 @@ export function Leaderboard() {
         <tbody>
           {entries.map((entry) => {
             return (
-              <tr>
+              <tr key={entry.name}>
                 <td>{entry.name}</td>
                 <td>{entry.score}</td>
               </tr>

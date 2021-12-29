@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import throttle from "lodash/throttle";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 const IMAGES = [
@@ -14,13 +15,19 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
 
   const [counter, setCounter] = useState(0);
 
-  const updateScoreDebounced = useCallback(
+  const updateScore = useCallback(
     (score) => {
+      console.log("updating score..");
       setDoc(doc(db, "leaderboards", nameOfClapper), {
         score,
       });
     },
     [nameOfClapper]
+  );
+
+  const updateScoreDebounced = useMemo(
+    () => throttle(updateScore, 300),
+    [updateScore]
   );
 
   useEffect(() => {
