@@ -30,7 +30,7 @@ function Td(props: { children: React.ReactNode; bold?: boolean }) {
 const q = query(
   collection(db, "leaderboards"),
   orderBy("score", "desc"),
-  limit(10)
+  limit(20)
 );
 
 interface LeaderboardEntry {
