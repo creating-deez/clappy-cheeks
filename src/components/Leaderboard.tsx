@@ -10,6 +10,18 @@ import React, { useEffect, useState } from "react";
 
 import { db } from "../firebase";
 
+function Tr(props: { children: React.ReactNode }) {
+  return <tr className="">{props.children}</tr>;
+}
+
+function Th(props: { children: React.ReactNode }) {
+  return <th className="">{props.children}</th>;
+}
+
+function Td(props: { children: React.ReactNode }) {
+  return <td className="px-2">{props.children}</td>;
+}
+
 const q = query(
   collection(db, "leaderboards"),
   orderBy("score", "desc"),
@@ -60,20 +72,20 @@ export function Leaderboard() {
   return (
     <div>
       <h1>Leaderboard</h1>
-      <table>
+      <table className="">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Score</th>
+            <Th>Name</Th>
+            <Th>Score</Th>
           </tr>
         </thead>
         <tbody>
           {entries.map((entry) => {
             return (
-              <tr key={entry.name}>
-                <td>{entry.name}</td>
-                <td>{entry.score}</td>
-              </tr>
+              <Tr key={entry.name}>
+                <Td>{entry.name}</Td>
+                <Td>{entry.score}</Td>
+              </Tr>
             );
           })}
         </tbody>

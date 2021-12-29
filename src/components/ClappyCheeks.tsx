@@ -3,12 +3,14 @@ import throttle from "lodash/throttle";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 const IMAGES = [
-  require('../assets/santa-1.png'),
-  require('../assets/santa-2.png'),
- ];
+  require("../assets/santa-1.png"),
+  require("../assets/santa-2.png"),
+];
 interface ClappyCheeksProps {
   nameOfClapper: string;
 }
+
+let isSpaceDown = false;
 
 export function ClappyCheeks(props: ClappyCheeksProps) {
   const { nameOfClapper } = props;
@@ -49,18 +51,31 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
     updateScoreDebounced(counter);
   }, [counter, updateScoreDebounced, loading]);
 
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.code === "Space") {
+        if (loading || isSpaceDown) return;
+        isSpaceDown = true;
+        setCounter((prev) => prev + 1);
+      }
+    },
+    [loading]
+  );
+
+  const handleKeyUp = useCallback((e: KeyboardEvent) => {
     if (e.code === "Space") {
-      setCounter((prev) => prev + 1);
+      isSpaceDown = false;
     }
   }, []);
 
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keypress", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keypress", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [handleKeyDown]);
+  }, [handleKeyDown, handleKeyUp]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -75,7 +90,7 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
         src={IMAGES[counter % IMAGES.length]}
         alt="Clappy Cheeks"
         className="cursor-pointer"
-        style={{ height: '80vh', width: '100%'}}
+        style={{ height: "80vh", width: "100%" }}
       />
       <div>Press space or some shit</div>
     </div>

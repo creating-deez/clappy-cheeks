@@ -23,9 +23,9 @@ function App() {
   return (
     <div className="h-screen">
       {name ? (
-        <div className="h-full w-full flex flex-col justify-center items-center">
-          <div>Hello {name}</div>
+        <div className="h-full w-full flex justify-center items-center">
           <Leaderboard />
+          <div className="w-10"></div>
           <ClappyCheeks nameOfClapper={name} />
         </div>
       ) : (
