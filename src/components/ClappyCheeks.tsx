@@ -48,8 +48,8 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
     [nameOfClapper]
   );
 
-  const updateScoreDebounced = useMemo(
-    () => throttle(updateScore, 300),
+  const updateScoreThrottled = useMemo(
+    () => throttle(updateScore, 1000),
     [updateScore]
   );
 
@@ -59,8 +59,8 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
 
   useEffect(() => {
     if (loading) return;
-    updateScoreDebounced(counter);
-  }, [counter, updateScoreDebounced, loading]);
+    updateScoreThrottled(counter);
+  }, [counter, updateScoreThrottled, loading]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {

@@ -1,6 +1,4 @@
-import { addDoc, collection } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "./firebase";
 import { ArrowSmRightIcon } from "@heroicons/react/solid";
 import { ClappyCheeks } from "./components/ClappyCheeks";
 import { Leaderboard } from "./components/Leaderboard";

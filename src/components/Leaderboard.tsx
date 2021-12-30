@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import {
   collection,
-  doc,
   limit,
   onSnapshot,
   orderBy,
