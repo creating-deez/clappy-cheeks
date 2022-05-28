@@ -104,7 +104,7 @@ export function ClappyCheeks(props: ClappyCheeksProps) {
         className="cursor-pointer"
         style={{ maxHeight: "70vh", width: "100%" }}
       />
-      <div>Press space or some shit</div>
+      <div>Press space to show ur holiday spirit</div>
     </div>
   );
 }
